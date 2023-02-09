@@ -5,10 +5,10 @@ import 'package:base/domain/entities/sign_in.dart';
 import 'package:base/domain/entities/user.dart';
 import 'package:dartz/dartz.dart';
 
-class GetSignIn {
+class PostSignIn {
   final AbstractSignInRepository _signIn;
 
-  GetSignIn({required AbstractSignInRepository signIn}) : _signIn = signIn;
+  PostSignIn({required AbstractSignInRepository signIn}) : _signIn = signIn;
   Future<Either<Failure, SignIn>> call(User user) async {
     return _signIn(UserRequest(newUser: user.user, newPass: user.pass));
   }

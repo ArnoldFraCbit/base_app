@@ -1,7 +1,9 @@
+import 'package:base/domain/usecase/post_sign_in.dart';
+
 import 'repository_module.dart';
 
 mixin UseCaseModule on RepositoryModule {
-  // AbstractGetSignIn get getSignIn {
-  //   return PostSignIn(repository: signInRepository);
-  // }
+  PostSignIn get postSignIn {
+    return PostSignIn(signIn: signInRepository);
+  }
 }

@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'package:base/core/config/app_config_type.dart';
+import 'package:base/core/config/app_config_mixin.dart';
 import 'package:base/core/enviroment/environment.dart';
 
-class AppConfig with AppConfigType {
+class AppConfig with AppConfigMixin {
   static final AppConfig shared = AppConfig._instance();
 
   factory AppConfig({required Environment env}) {

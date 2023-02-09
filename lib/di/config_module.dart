@@ -1,9 +1,9 @@
 import 'package:base/core/config/app_config.dart';
-import 'package:base/core/config/app_config_type.dart';
+import 'package:base/core/config/app_config_mixin.dart';
 
 mixin ConfigModule {
   /// App config
-  AppConfigType get appConfig {
+  AppConfigMixin get appConfig {
     return AppConfig.shared;
   }
 }
