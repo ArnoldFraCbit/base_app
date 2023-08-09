@@ -1,10 +1,13 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:barcode_scanner/json/common_data.dart';
+import 'package:base/presentation/pages/widgets/dialog/alert_dialog_failure.dart';
 import 'package:flutter/material.dart';
 import 'package:barcode_scanner/barcode_scanning_data.dart';
 import 'package:barcode_scanner/scanbot_barcode_sdk.dart';
 import 'package:barcode_scanner/scanbot_sdk_models.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ScannerPage extends StatefulWidget {
   const ScannerPage({super.key});
@@ -26,8 +29,6 @@ class _ScannerPageState extends State<ScannerPage> {
 
     var config = ScanbotSdkConfig(licenseKey: licenseKey, loggingEnabled: true);
     ScanbotBarcodeSdk.initScanbotSdk(config);
-
-    _startBarcodeScanner();
   }
 
   Future<bool> checkLicenseStatus() async {
@@ -39,9 +40,24 @@ class _ScannerPageState extends State<ScannerPage> {
     return false;
   }
 
-  Future<void> _startBarcodeScanner() async {
+  Future<String> _importImage() async {
+    final XFile? file =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    try {
+      var result = await ScanbotBarcodeSdk.detectFromImageFile(
+        File(file!.path).uri,
+        barcodeFormats: [BarcodeFormat.PDF_417],
+      );
+      return result.toJson().toString();
+    } catch (e) {
+      log("Error Gallery");
+      return e.toString();
+    }
+  }
+
+  Future<String> _startBarcodeScanner() async {
     if (!await checkLicenseStatus()) {
-      return;
+      return "";
     }
 
     try {
@@ -62,9 +78,12 @@ class _ScannerPageState extends State<ScannerPage> {
         // ...
       );
       var result = await ScanbotBarcodeSdk.startBarcodeScanner(config);
-      log(result.toString());
+
+      log(result.toJson().toString());
+      return result.toJson().toString();
     } catch (e) {
       log(e.toString());
+      return e.toString();
     }
   }
 
@@ -103,6 +122,38 @@ class _ScannerPageState extends State<ScannerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(),
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () async {
+                alertDialogFailure(
+                  context: context,
+                  message: await _startBarcodeScanner(),
+                );
+              },
+              child: const Text("Camara"),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            InkWell(
+              onTap: () async {
+                alertDialogFailure(
+                  context: context,
+                  message: await _importImage(),
+                );
+              },
+              child: const Text("Galeria"),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
