@@ -6,7 +6,7 @@ RouteObserver<ModalRoute<void>> navigationObserver =
     RouteObserver<ModalRoute<void>>();
 
 ThemeData themeData = ThemeData(
-    fontFamily: "monserratRegular",
+    fontFamily: "Avenir",
     brightness: Brightness.light,
     pageTransitionsTheme: _buildPageTransitionsTheme());
 

@@ -7,6 +7,10 @@ extension AppRouter<T extends StatefulWidget> on State<T> {
     NavigationController.push(Routes.signIn.routeName, clean: true);
   }
 
+  void transitionToRequest() {
+    NavigationController.push(Routes.request.routeName, clean: true);
+  }
+
   void pop() {
     Navigator.pop(context);
   }

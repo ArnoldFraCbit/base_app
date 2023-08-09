@@ -1,10 +1,12 @@
+import 'package:base/presentation/pages/request/request_page.dart';
+import 'package:base/presentation/pages/scanner/scanner_page.dart';
 import 'package:base/presentation/pages/sign_in/sign_in_page.dart';
 import 'package:base/presentation/utils/routers/routes.dart';
 import 'package:flutter/material.dart';
 
 Route<Object>? generateRoute(RouteSettings settings) {
   final namedRoute = settings.name == '/'
-      ? Routes.signIn
+      ? Routes.scanner
       : Routes.values.firstWhere(
           (element) {
             if (settings.name != null) {
@@ -20,6 +22,10 @@ Route<Object>? generateRoute(RouteSettings settings) {
       return _errorRoute();
     case AppRoute.signIn:
       return _buildRoute(settings: settings, screen: const SignInPage());
+    case AppRoute.request:
+      return _buildRoute(settings: settings, screen: const RequestPage());
+    case AppRoute.scanner:
+      return _buildRoute(settings: settings, screen: const ScannerPage());
   }
 }
 

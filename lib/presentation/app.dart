@@ -1,10 +1,10 @@
 import 'package:base/core/app_global.dart';
+import 'package:base/di/bloc_module.dart';
 import 'package:base/di/client_module.dart';
 import 'package:base/di/config_module.dart';
 import 'package:base/di/repository_module.dart';
 import 'package:base/di/service_module.dart';
 import 'package:base/di/usecase_module.dart';
-import 'package:base/presentation/bloc/sign_in/sign_in_bloc.dart';
 import 'package:base/presentation/utils/routers/gen_router.dart';
 import 'package:base/presentation/utils/routers/navigation_controller.dart';
 import 'package:flutter/material.dart';
@@ -36,13 +36,12 @@ class _MyAppState extends State<MyApp>
         ClientModule,
         ServiceModule,
         RepositoryModule,
-        UseCaseModule {
+        UseCaseModule,
+        BlocModule {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => SignInBloc(postSignIn: postSignIn)),
-      ],
+      providers: blocProviders,
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
